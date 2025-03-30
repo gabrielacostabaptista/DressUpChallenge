@@ -68,18 +68,6 @@ def main():
 
     menu = Menu(window)  # Instancia o menu
 
-    while True:
-        selected_option = menu.run()  # Executa o menu e captura a opção selecionada
-
-        if selected_option == "NEW GAME":
-            # Quando o jogador escolher "NEW GAME", entra na tela de adicionar a palavra secreta
-            add_secret_word_screen = AddSecretWord(window)  # Instancia a tela para digitar a palavra secreta
-            secret_word = add_secret_word_screen.run()
-            print(f"Palavra secreta capturada: {secret_word}")
-
-        elif selected_option == "EXIT":
-            pygame.quit()  # Encerra o Pygame
-            quit()  # Encerra o jogo
 
 
 if __name__ == "__main__":
