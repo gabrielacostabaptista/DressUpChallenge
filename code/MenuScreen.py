@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pygame
+from code.AddSecretWord import AddSecretWord
 from code.Const import WIN_WIDTH, WIN_HEIGHT, COLOR_PINK, MENU_OPTION, COLOR_GREEN, COLOR_YELLOW, COLOR_WHITE
 
 class Menu:
@@ -13,6 +14,7 @@ class Menu:
         # Posicionando a imagem no canto superior esquerdo no retângulo
         self.rect = self.surf.get_rect(topleft=(0, 0))
 
+
     def menu_text(self, text_size, text, text_color, text_center_pos):
         # Renderiza o texto na tela
         font = pygame.font.Font(None, text_size)  # Usando a fonte padrão do Pygame
@@ -22,48 +24,46 @@ class Menu:
 
     def run(self):
         menu_option = 0
-        # Carregar a música de fundo
         pygame.mixer_music.load('C:\\Users\\gabri\\OneDrive\\Documents\\DEV\\JogoDaForca\\asset\\SondMenu.mp3')
-        pygame.mixer_music.play(-1)  # Música tocando em loop (-1)
+        pygame.mixer_music.play(-1)
 
         while True:
-            # Limpa a tela e desenha o fundo
             self.window.blit(self.surf, self.rect)
-            # Desenha o título e subtítulo
-            self.menu_text(text_size=50, text="Dress-up",
-                           text_color=COLOR_PINK, text_center_pos=(WIN_WIDTH / 2, 70))
+            self.menu_text(text_size=50, text="Dress-up", text_color=COLOR_PINK,
+                           text_center_pos=(WIN_WIDTH / 2, 70))
             self.menu_text(text_size=50, text="Challenge", text_color=COLOR_PINK,
-                           text_center_pos=((WIN_WIDTH / 2), 120))
+                           text_center_pos=(WIN_WIDTH / 2, 120))
 
-            # Renderiza as opções do menu
             for i in range(len(MENU_OPTION)):
                 if i == menu_option:
                     self.menu_text(text_size=27, text=MENU_OPTION[i], text_color=COLOR_YELLOW,
-                                   text_center_pos=((WIN_WIDTH / 2), 170 + 30 * i))  # deixando o texto amarelo
+                                   text_center_pos=(WIN_WIDTH / 2, 170 + 30 * i))
                 else:
                     self.menu_text(text_size=27, text=MENU_OPTION[i], text_color=COLOR_GREEN,
-                                   text_center_pos=((WIN_WIDTH / 2), 170 + 30 * i))
+                                   text_center_pos=(WIN_WIDTH / 2, 170 + 30 * i))
 
-            # Fechar a janela
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()  # fechar a janela
-                    quit()  # encerrando o jogo
+                    pygame.quit()
+                    quit()
+
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_DOWN:  # mover para baixo
+                    if event.key == pygame.K_DOWN:
                         if menu_option < len(MENU_OPTION) - 1:
                             menu_option += 1
                         else:
                             menu_option = 0
-                    if event.key == pygame.K_UP:  # mover para cima
+                    if event.key == pygame.K_UP:
                         if menu_option > 0:
                             menu_option -= 1
                         else:
                             menu_option = len(MENU_OPTION) - 1
-                    if event.key == pygame.K_RETURN:  # tecla Enter
-                        return MENU_OPTION[menu_option]  # Retorna a opção selecionada
-            pygame.display.flip()
+                    if event.key == pygame.K_RETURN:
+                        if event.key == pygame.K_RETURN:
+                            return MENU_OPTION[menu_option]  # Retorna a opção selecionada (REINICIA O WHILE)
 
+
+            pygame.display.flip()
 
 def main():
     # Função principal para inicializar o jogo
@@ -78,7 +78,6 @@ def main():
     # Instancia o menu e executa
     menu = Menu(window)
     menu.run()
-
 
 if __name__ == "__main__":
     main()  # Executa a função principal

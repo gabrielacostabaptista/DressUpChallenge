@@ -4,7 +4,7 @@ import pygame
 
 from code.AddSecretWord import AddSecretWord
 from code.Const import WIN_WIDTH, WIN_HEIGHT, MENU_OPTION
-from code.Menu import Menu
+from code.MenuScreen import Menu
 
 
 class Game:

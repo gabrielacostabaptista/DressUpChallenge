@@ -1,12 +1,12 @@
 import pygame
-from code.Const import WIN_WIDTH, WIN_HEIGHT, COLOR_WHITE, \
-    COLOR_PINK  # Certifique-se de que as constantes estão definidas
+from code.Const import WIN_WIDTH, WIN_HEIGHT, COLOR_WHITE, COLOR_PINK, COLOR_BLUE
+
 
 class AddSecretWord:
     def __init__(self, window):
-        self.window = window
-
+        pygame.init()
         # Carregar a imagem de fundo
+        self.window = window
         self.background_image = pygame.image.load(
             'C:\\Users\\gabri\\OneDrive\\Documents\\DEV\\JogoDaForca\\asset\\Level.png'
         )
@@ -15,49 +15,69 @@ class AddSecretWord:
 
     def run(self):
         running = True
-        # Definir o texto e a fonte
-        text_size = 40  # Tamanho da fonte
-        text = "Digite a palavra secreta:"  # Texto que será exibido
-        text_color = COLOR_PINK  # Cor do texto
-        text_center_pos = (WIN_WIDTH // 2, 100)  # Posição do texto (centralizado na parte superior)
-
-        # Criar a fonte
+        text_size = 40
+        text = "Digite a palavra secreta:"
+        text_color = COLOR_PINK
+        text_center_pos = (WIN_WIDTH // 2, 100)
         font = pygame.font.Font(None, text_size)
+
+        secret_word = ""
+        word_color = COLOR_BLUE
+        line_top_pos = WIN_HEIGHT // 2 + 30
+        line_length = 300
 
         while running:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:  # Fechar a janela
+                if event.type == pygame.QUIT:
                     running = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        print(f"Palavra Secreta: {secret_word}")
+                        return secret_word  # Retorna a palavra para o chamador
+                    elif event.key == pygame.K_BACKSPACE:
+                        secret_word = secret_word[:-1]
+                    else:
+                        secret_word += event.unicode
 
-            # Desenhar a imagem de fundo
             self.window.blit(self.background_image, (0, 0))
-            # Criar a superfície com o texto
             text_surface = font.render(text, True, text_color)
-            text_rect = text_surface.get_rect(center=text_center_pos)  # Posicionar o texto
-
-            # Desenhar o texto na janela
+            text_rect = text_surface.get_rect(center=text_center_pos)
             self.window.blit(text_surface, text_rect)
 
-            # Atualizar a tela
+            word_surface = font.render(secret_word, True, word_color)
+            word_rect = word_surface.get_rect(center=(WIN_WIDTH // 2, WIN_HEIGHT // 2))
+            self.window.blit(word_surface, word_rect)
+
+            pygame.draw.line(self.window, COLOR_BLUE,
+                             (WIN_WIDTH // 2 - line_length // 2, line_top_pos),
+                             (WIN_WIDTH // 2 + line_length // 2, line_top_pos), 3)
+
             pygame.display.flip()
 
-        pygame.quit()
 
-# Função main para inicializar a janela e a execução do jogo
+import pygame
+from code.AddSecretWord import AddSecretWord
+from code.MenuScreen import Menu
+from code.Const import WIN_WIDTH, WIN_HEIGHT
+
+
 def main():
     pygame.init()
-    window = pygame.display.set_mode((576, 324))  # As dimensões da janela
-    pygame.display.set_caption("Add Secret Word Test")
+    window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    pygame.display.set_caption("Jogo da Forca - Add Secret Word")
 
-    # Instanciando a tela de AddSecretWord
-    add_secret_word_screen = AddSecretWord(window)
-    add_secret_word_screen.run()  # Chama a função que desenha a janela
+    while True:
+        # Instancia o menu e executa
+        menu = Menu(window)
+        menu.run()
+
+        # Após o menu, instancia a tela de adicionar palavra
+        add_secret_word_screen = AddSecretWord(window)
+        secret_word = add_secret_word_screen.run()
+
+        # Exibe a palavra secreta apenas para teste
+        print(f"Palavra secreta capturada: {secret_word}")
+
 
 if __name__ == "__main__":
     main()
-
-#def verificar_letra(self, letra):
-        #pass
-
-    #def letra_adivinhada(self, letra):
-        #pass
