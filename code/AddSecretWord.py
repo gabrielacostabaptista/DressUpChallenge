@@ -64,7 +64,7 @@ from code.Const import WIN_WIDTH, WIN_HEIGHT
 def main():
     pygame.init()
     window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
-    pygame.display.set_caption("Jogo da Forca - Add Secret Word")
+    pygame.display.set_caption("Dress Up - Add Secret Word")
 
     while True:
         # Instancia o menu e executa

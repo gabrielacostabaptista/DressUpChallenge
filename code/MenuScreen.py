@@ -2,25 +2,21 @@
 # -*- coding: utf-8 -*-
 import pygame
 from code.AddSecretWord import AddSecretWord
-from code.Const import WIN_WIDTH, WIN_HEIGHT, COLOR_PINK, MENU_OPTION, COLOR_GREEN, COLOR_YELLOW, COLOR_WHITE
+from code.Const import WIN_WIDTH, WIN_HEIGHT, COLOR_PINK, MENU_OPTION, COLOR_GREEN, COLOR_YELLOW
+
 
 class Menu:
     def __init__(self, window):
         self.window = window
-        # Adicionando a imagem ao menu
         self.surf = pygame.image.load('C:\\Users\\gabri\\OneDrive\\Documents\\DEV\\JogoDaForca\\asset\\BgMenu.png')
-        # Redimensionando a imagem para ajustar na janela
         self.surf = pygame.transform.scale(self.surf, (WIN_WIDTH, WIN_HEIGHT))
-        # Posicionando a imagem no canto superior esquerdo no retângulo
         self.rect = self.surf.get_rect(topleft=(0, 0))
 
-
     def menu_text(self, text_size, text, text_color, text_center_pos):
-        # Renderiza o texto na tela
-        font = pygame.font.Font(None, text_size)  # Usando a fonte padrão do Pygame
-        text_surface = font.render(text, True, text_color)  # Cria a superfície com o texto
-        text_rect = text_surface.get_rect(center=text_center_pos)  # Posiciona o texto centralizado
-        self.window.blit(text_surface, text_rect)  # Desenha o texto na janela
+        font = pygame.font.Font(None, text_size)
+        text_surface = font.render(text, True, text_color)
+        text_rect = text_surface.get_rect(center=text_center_pos)
+        self.window.blit(text_surface, text_rect)
 
     def run(self):
         menu_option = 0
@@ -29,10 +25,8 @@ class Menu:
 
         while True:
             self.window.blit(self.surf, self.rect)
-            self.menu_text(text_size=50, text="Dress-up", text_color=COLOR_PINK,
+            self.menu_text(text_size=50, text="Jogo da Forca", text_color=COLOR_PINK,
                            text_center_pos=(WIN_WIDTH / 2, 70))
-            self.menu_text(text_size=50, text="Challenge", text_color=COLOR_PINK,
-                           text_center_pos=(WIN_WIDTH / 2, 120))
 
             for i in range(len(MENU_OPTION)):
                 if i == menu_option:
@@ -49,35 +43,40 @@ class Menu:
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_DOWN:
-                        if menu_option < len(MENU_OPTION) - 1:
-                            menu_option += 1
-                        else:
-                            menu_option = 0
-                    if event.key == pygame.K_UP:
-                        if menu_option > 0:
-                            menu_option -= 1
-                        else:
-                            menu_option = len(MENU_OPTION) - 1
-                    if event.key == pygame.K_RETURN:
-                        if event.key == pygame.K_RETURN:
-                            return MENU_OPTION[menu_option]  # Retorna a opção selecionada (REINICIA O WHILE)
+                        menu_option = (menu_option + 1) % len(MENU_OPTION)
+                    elif event.key == pygame.K_UP:
+                        menu_option = (menu_option - 1) % len(MENU_OPTION)
+                    elif event.key == pygame.K_RETURN:
+                        return MENU_OPTION[menu_option]  # Retorna a opção selecionada
+                    else:
+                        pygame.quit()
+                        quit()
 
 
             pygame.display.flip()
 
+import pygame
+from code.MenuScreen import Menu
+from code.AddSecretWord import AddSecretWord
+from code.Const import WIN_WIDTH, WIN_HEIGHT
+
 def main():
-    # Função principal para inicializar o jogo
-    pygame.init()  # Inicializa o Pygame
-
-    # Cria a janela com as dimensões definidas
+    pygame.init()
     window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    pygame.display.set_caption("Dress Up Challenge")
 
-    # Define o título da janela
-    pygame.display.set_caption("Jogo da Forca - Menu")
+    menu = Menu(window)  # Instancia o menu
+    add_secret_word = AddSecretWord(window)  # Instancia a tela de AddSecretWord
 
-    # Instancia o menu e executa
-    menu = Menu(window)
-    menu.run()
+    while True:
+        selected_option = menu.run()  # Executa o menu e captura a opção selecionada
+        if selected_option == "NEW GAME":
+            # Após o menu, instancia a tela de adicionar palavra
+            add_secret_word = AddSecretWord(window)
+            secret_word = add_secret_word.run()
+        else:
+            pygame.quit()
+            quit()
 
 if __name__ == "__main__":
-    main()  # Executa a função principal
+    main()
