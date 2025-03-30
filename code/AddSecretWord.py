@@ -71,15 +71,5 @@ def main():
         menu = Menu(window)
         selected_option = menu.run()  # Executa o menu e captura a opção selecionada
 
-        if selected_option == "NEW GAME":
-            # Após o menu, instancia a tela de adicionar palavra
-            add_secret_word_screen = AddSecretWord(window)
-            secret_word = add_secret_word_screen.run()
-            print(f"Palavra secreta capturada: {secret_word}")
-
-        elif selected_option == "EXIT":
-            pygame.quit()
-            quit()
-
 if __name__ == "__main__":
     main()
