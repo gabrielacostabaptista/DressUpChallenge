@@ -28,8 +28,9 @@ class AddSecretWord:
 
         while running:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
+                if event.type == pygame.QUIT:  # encerrar o programa quando apeta o X
+                    pygame.quit()
+                    quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         print(f"Palavra Secreta: {secret_word}")
@@ -60,24 +61,25 @@ from code.AddSecretWord import AddSecretWord
 from code.MenuScreen import Menu
 from code.Const import WIN_WIDTH, WIN_HEIGHT
 
-
 def main():
     pygame.init()
     window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
-    pygame.display.set_caption("Jogo da Forca - Add Secret Word")
+    pygame.display.set_caption("Dress Up - Add Secret Word")
 
     while True:
         # Instancia o menu e executa
         menu = Menu(window)
-        menu.run()
+        selected_option = menu.run()  # Executa o menu e captura a opção selecionada
 
-        # Após o menu, instancia a tela de adicionar palavra
-        add_secret_word_screen = AddSecretWord(window)
-        secret_word = add_secret_word_screen.run()
+        if selected_option == "NEW GAME":
+            # Após o menu, instancia a tela de adicionar palavra
+            add_secret_word_screen = AddSecretWord(window)
+            secret_word = add_secret_word_screen.run()
+            print(f"Palavra secreta capturada: {secret_word}")
 
-        # Exibe a palavra secreta apenas para teste
-        print(f"Palavra secreta capturada: {secret_word}")
-
+        elif selected_option == "EXIT":
+            pygame.quit()
+            quit()
 
 if __name__ == "__main__":
     main()
