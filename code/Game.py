@@ -2,28 +2,48 @@
 # -*- coding: utf-8 -*-
 import pygame
 
+from code.AddSecretWord import AddSecretWord
+from code.Const import WIN_WIDTH, WIN_HEIGHT, MENU_OPTION
+from code.Menu import Menu
+
 
 class Game:
-    def __init__(self, window, palavra_secreta):
-        self.window = window
-        self.palavra_secreta = palavra_secreta.upper()  # Armazena a palavra convertida para maiúscula
-        self.erros = 0
-        self.letras_corretas = []
-        self.letras_erradas = []
+    def __init__(self):
+        pygame.init()
 
-    def run(self):
-        """Loop principal do jogo"""
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    return
+        #configurando a janela
+        self.window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+        pygame.display.set_caption("Meu jogo com menu")
+        self.running = True
 
-            # Aqui virá toda a lógica do jogo da forca
-            self.window.fill((255, 255, 255))  # Fundo branco
+        #instancia o menu
+        self.menu = Menu(self.window)
+
+    def run (self):
+        while True:
+            menu = Menu(self.window)
+            menu_return = menu.run()  # Retorna a escolha feita no menu
+
+            if menu_return == MENU_OPTION[0]:  # "NEW GAME"
+                # Aqui, quando "New Game" é escolhido, o jogo vai para a tela de AddSecretWord
+                level = AddSecretWord(self.window, name='AddSecretWord', menu_return=menu_return)
+                level.run()  # Executa a tela AddSecretWord e depois vai para o jogo
+            elif menu_return == MENU_OPTION[1]:  # "EXIT"
+                pygame.quit()
+                quit()
+            else:
+                pass
+
+
+
+        #self.palavra_secreta = palavra_secreta.upper()  # Armazena a palavra convertida para maiúscula
+        #self.erros = 0
+        #self.letras_corretas = []
+        #self.letras_erradas = []
+
+
 
             pygame.display.flip()  # Atualiza a tela
 
-    def adicionar_palavra(self, palavra):
-        pass
+    #def adicionar_palavra(self, palavra):
+        #pass

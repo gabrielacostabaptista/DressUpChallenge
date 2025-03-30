@@ -50,18 +50,18 @@ class Menu:
                     pygame.quit()  # fechar a janela
                     quit()  # encerrando o jogo
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_DOWN:  # trocar de cor quando a apertar a seta para baixo (KEY DOW)
+                    if event.key == pygame.K_DOWN:  # mover para baixo
                         if menu_option < len(MENU_OPTION) - 1:
-                            menu_option += 1  # incrementar
+                            menu_option += 1
                         else:
-                            menu_option = 0  # voltar para o inicio das opções (KEY UP)
-                    if event.key == pygame.K_UP:  # trocar de cor quando a apertar a seta para cima
+                            menu_option = 0
+                    if event.key == pygame.K_UP:  # mover para cima
                         if menu_option > 0:
-                            menu_option -= 1  # decrementar
+                            menu_option -= 1
                         else:
                             menu_option = len(MENU_OPTION) - 1
-                    if event.key == pygame.K_RETURN:  # Tecla Enter
-                        return MENU_OPTION[menu_option]  # Retorna a opção selecionada (REINICIA O WHILE)
+                    if event.key == pygame.K_RETURN:  # tecla Enter
+                        return MENU_OPTION[menu_option]  # Retorna a opção selecionada
             pygame.display.flip()
 
 
