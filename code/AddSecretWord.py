@@ -66,10 +66,21 @@ def main():
     window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     pygame.display.set_caption("Dress Up - Add Secret Word")
 
+    menu = Menu(window)  # Instancia o menu
+
     while True:
-        # Instancia o menu e executa
-        menu = Menu(window)
         selected_option = menu.run()  # Executa o menu e captura a opção selecionada
+
+        if selected_option == "NEW GAME":
+            # Quando o jogador escolher "NEW GAME", entra na tela de adicionar a palavra secreta
+            add_secret_word_screen = AddSecretWord(window)  # Instancia a tela para digitar a palavra secreta
+            secret_word = add_secret_word_screen.run()
+            print(f"Palavra secreta capturada: {secret_word}")
+
+        elif selected_option == "EXIT":
+            pygame.quit()  # Encerra o Pygame
+            quit()  # Encerra o jogo
+
 
 if __name__ == "__main__":
     main()
